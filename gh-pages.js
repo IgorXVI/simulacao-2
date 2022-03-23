@@ -3,7 +3,7 @@ const ghpages = require('gh-pages')
 ghpages.publish(
     'public', // path to public directory
     {
-        branch: 'main',
+        branch: 'master',
         repo: 'https://github.com/IgorXVI/simulacao-2.git', // Update to point to your repository  
         user: {
             name: 'IgorXVI', // update to use your name
