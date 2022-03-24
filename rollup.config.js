@@ -72,10 +72,16 @@ export default {
 		production && terser(),
 
 		copy({
-			targets: [{
-				src: 'node_modules/bootstrap/dist/**/*',
-				dest: 'public/vendor/bootstrap'
-			}]
+			targets: [
+				{
+					src: 'node_modules/bootstrap/dist/**/*',
+					dest: 'public/vendor/bootstrap',
+				},
+				{
+					src: "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+					dest: "public/vendor/bootstrap/js",
+				}
+			]
 		})
 	],
 	watch: {
