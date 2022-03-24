@@ -149,6 +149,20 @@
 			</div>
 		</div>
 		<div class="row padded">
+			<div class="col">
+				<div class="card" hidden={finalInfos.length === 1}>
+					<div class="card-header">Resultados finais</div>
+					<div class="card-body">
+						<blockquote class="blockquote mb-0">
+							{#each finalInfos as finalInfo}
+								<p>{finalInfo}</p>
+							{/each}
+						</blockquote>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row padded">
 			<div class="col-5">
 				<div class="input-group mb-3">
 					<span class="input-group-text">Tempo da Simulação (em minutos):</span>
@@ -162,20 +176,6 @@
 			</div>
 			<div class="col-5">
 				<NumList name="TS" bind:nums={TSs} bind:defaultNum={defaultTS} />
-			</div>
-		</div>
-		<div class="row padded">
-			<div class="col">
-				<div class="card" hidden={finalInfos.length === 1}>
-					<div class="card-header">Resultados finais</div>
-					<div class="card-body">
-						<blockquote class="blockquote mb-0">
-							{#each finalInfos as finalInfo}
-								<p>{finalInfo}</p>
-							{/each}
-						</blockquote>
-					</div>
-				</div>
 			</div>
 		</div>
 		<div class="row padded">
