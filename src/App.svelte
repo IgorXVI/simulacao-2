@@ -211,20 +211,4 @@
 	{/each}
 </div>
 
-<style>
-	table {
-		text-align: center;
-		border: black 0.1rem solid;
-		background-color: black;
-	}
-	th {
-		color: white;
-	}
-	tr {
-		background-color: lightgray;
-	}
-	.last-line {
-		font-weight: bolder;
-		color: red;
-	}
-</style>
+<style></style>
