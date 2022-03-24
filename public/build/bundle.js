@@ -417,32 +417,43 @@ var app = (function () {
 
     function get_each_context$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[5] = list[i];
+    	child_ctx[6] = list[i];
+    	child_ctx[8] = i;
     	return child_ctx;
     }
 
-    // (18:8) {#each nums as num}
+    // (24:8) {#each nums as num, index}
     function create_each_block$1(ctx) {
-    	let li;
-    	let t_value = /*num*/ ctx[5] + "";
+    	let button;
+    	let t_value = /*num*/ ctx[6] + "";
     	let t;
+    	let mounted;
+    	let dispose;
 
     	const block = {
     		c: function create() {
-    			li = element("li");
+    			button = element("button");
     			t = text(t_value);
-    			attr_dev(li, "class", "list-group-item");
-    			add_location(li, file$1, 18, 12, 528);
+    			attr_dev(button, "class", "list-group-item list-group-item-action");
+    			add_location(button, file$1, 24, 12, 691);
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, li, anchor);
-    			append_dev(li, t);
+    			insert_dev(target, button, anchor);
+    			append_dev(button, t);
+
+    			if (!mounted) {
+    				dispose = listen_dev(button, "click", /*removeNum*/ ctx[4](/*index*/ ctx[8]), false, false, false);
+    				mounted = true;
+    			}
     		},
-    		p: function update(ctx, dirty) {
-    			if (dirty & /*nums*/ 1 && t_value !== (t_value = /*num*/ ctx[5] + "")) set_data_dev(t, t_value);
+    		p: function update(new_ctx, dirty) {
+    			ctx = new_ctx;
+    			if (dirty & /*nums*/ 1 && t_value !== (t_value = /*num*/ ctx[6] + "")) set_data_dev(t, t_value);
     		},
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(li);
+    			if (detaching) detach_dev(button);
+    			mounted = false;
+    			dispose();
     		}
     	};
 
@@ -450,7 +461,7 @@ var app = (function () {
     		block,
     		id: create_each_block$1.name,
     		type: "each",
-    		source: "(18:8) {#each nums as num}",
+    		source: "(24:8) {#each nums as num, index}",
     		ctx
     	});
 
@@ -458,7 +469,7 @@ var app = (function () {
     }
 
     function create_fragment$1(ctx) {
-    	let div1;
+    	let div2;
     	let div0;
     	let span;
     	let t0;
@@ -470,7 +481,7 @@ var app = (function () {
     	let t4;
     	let t5;
     	let t6;
-    	let ul;
+    	let div1;
     	let mounted;
     	let dispose;
     	let each_value = /*nums*/ ctx[0];
@@ -483,7 +494,7 @@ var app = (function () {
 
     	const block = {
     		c: function create() {
-    			div1 = element("div");
+    			div2 = element("div");
     			div0 = element("div");
     			span = element("span");
     			t0 = text(/*name*/ ctx[2]);
@@ -495,31 +506,31 @@ var app = (function () {
     			t4 = text("Adicionar ");
     			t5 = text(/*name*/ ctx[2]);
     			t6 = space();
-    			ul = element("ul");
+    			div1 = element("div");
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
 
     			attr_dev(span, "class", "input-group-text");
-    			add_location(span, file$1, 12, 8, 239);
+    			add_location(span, file$1, 18, 8, 394);
     			attr_dev(input, "type", "number");
     			attr_dev(input, "class", "form-control");
-    			add_location(input, file$1, 13, 8, 294);
+    			add_location(input, file$1, 19, 8, 449);
     			attr_dev(button, "class", "btn btn-dark");
-    			add_location(button, file$1, 14, 8, 372);
+    			add_location(button, file$1, 20, 8, 527);
     			attr_dev(div0, "class", "input-group mb-3");
-    			add_location(div0, file$1, 11, 4, 199);
-    			attr_dev(ul, "class", "list-group");
-    			add_location(ul, file$1, 16, 4, 462);
-    			add_location(div1, file$1, 10, 0, 188);
+    			add_location(div0, file$1, 17, 4, 354);
+    			attr_dev(div1, "class", "list-group");
+    			add_location(div1, file$1, 22, 4, 617);
+    			add_location(div2, file$1, 16, 0, 343);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, div1, anchor);
-    			append_dev(div1, div0);
+    			insert_dev(target, div2, anchor);
+    			append_dev(div2, div0);
     			append_dev(div0, span);
     			append_dev(span, t0);
     			append_dev(span, t1);
@@ -530,16 +541,16 @@ var app = (function () {
     			append_dev(div0, button);
     			append_dev(button, t4);
     			append_dev(button, t5);
-    			append_dev(div1, t6);
-    			append_dev(div1, ul);
+    			append_dev(div2, t6);
+    			append_dev(div2, div1);
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(ul, null);
+    				each_blocks[i].m(div1, null);
     			}
 
     			if (!mounted) {
     				dispose = [
-    					listen_dev(input, "input", /*input_input_handler*/ ctx[4]),
+    					listen_dev(input, "input", /*input_input_handler*/ ctx[5]),
     					listen_dev(button, "click", /*addNum*/ ctx[3], false, false, false)
     				];
 
@@ -555,7 +566,7 @@ var app = (function () {
 
     			if (dirty & /*name*/ 4) set_data_dev(t5, /*name*/ ctx[2]);
 
-    			if (dirty & /*nums*/ 1) {
+    			if (dirty & /*removeNum, nums*/ 17) {
     				each_value = /*nums*/ ctx[0];
     				validate_each_argument(each_value);
     				let i;
@@ -568,7 +579,7 @@ var app = (function () {
     					} else {
     						each_blocks[i] = create_each_block$1(child_ctx);
     						each_blocks[i].c();
-    						each_blocks[i].m(ul, null);
+    						each_blocks[i].m(div1, null);
     					}
     				}
 
@@ -582,7 +593,7 @@ var app = (function () {
     		i: noop,
     		o: noop,
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(div1);
+    			if (detaching) detach_dev(div2);
     			destroy_each(each_blocks, detaching);
     			mounted = false;
     			run_all(dispose);
@@ -611,6 +622,10 @@ var app = (function () {
     		$$invalidate(0, nums = nums.concat(defaultNum));
     	};
 
+    	const removeNum = (removeIndex = -1) => () => {
+    		$$invalidate(0, nums = nums.filter((_, index) => index !== removeIndex));
+    	};
+
     	const writable_props = ['name', 'nums', 'defaultNum'];
 
     	Object.keys($$props).forEach(key => {
@@ -628,7 +643,13 @@ var app = (function () {
     		if ('defaultNum' in $$props) $$invalidate(1, defaultNum = $$props.defaultNum);
     	};
 
-    	$$self.$capture_state = () => ({ name, nums, defaultNum, addNum });
+    	$$self.$capture_state = () => ({
+    		name,
+    		nums,
+    		defaultNum,
+    		addNum,
+    		removeNum
+    	});
 
     	$$self.$inject_state = $$props => {
     		if ('name' in $$props) $$invalidate(2, name = $$props.name);
@@ -640,7 +661,7 @@ var app = (function () {
     		$$self.$inject_state($$props.$$inject);
     	}
 
-    	return [nums, defaultNum, name, addNum, input_input_handler];
+    	return [nums, defaultNum, name, addNum, removeNum, input_input_handler];
     }
 
     class NumList extends SvelteComponentDev {
@@ -687,88 +708,53 @@ var app = (function () {
     function get_each_context(ctx, list, i) {
     	const child_ctx = ctx.slice();
     	child_ctx[21] = list[i];
-    	child_ctx[23] = i;
     	return child_ctx;
     }
 
     function get_each_context_1(ctx, list, i) {
     	const child_ctx = ctx.slice();
     	child_ctx[24] = list[i];
+    	child_ctx[26] = i;
     	return child_ctx;
     }
 
-    // (157:7) {#each finalInfos as finalInfo}
+    // (182:6) {#each table as row, index}
     function create_each_block_1(ctx) {
-    	let p;
-    	let t_value = /*finalInfo*/ ctx[24] + "";
-    	let t;
-
-    	const block = {
-    		c: function create() {
-    			p = element("p");
-    			t = text(t_value);
-    			add_location(p, file, 157, 8, 4792);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, p, anchor);
-    			append_dev(p, t);
-    		},
-    		p: function update(ctx, dirty) {
-    			if (dirty & /*finalInfos*/ 64 && t_value !== (t_value = /*finalInfo*/ ctx[24] + "")) set_data_dev(t, t_value);
-    		},
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(p);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_each_block_1.name,
-    		type: "each",
-    		source: "(157:7) {#each finalInfos as finalInfo}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (196:6) {#each table as row, index}
-    function create_each_block(ctx) {
     	let tr;
     	let td0;
-    	let t0_value = /*row*/ ctx[21].cliente + "";
+    	let t0_value = /*row*/ ctx[24].cliente + "";
     	let t0;
     	let t1;
     	let td1;
-    	let t2_value = /*row*/ ctx[21].tempoDesdeAUltimaChegada + "";
+    	let t2_value = /*row*/ ctx[24].tempoDesdeAUltimaChegada + "";
     	let t2;
     	let t3;
     	let td2;
-    	let t4_value = /*row*/ ctx[21].tempoDeChegadaNoRelogio + "";
+    	let t4_value = /*row*/ ctx[24].tempoDeChegadaNoRelogio + "";
     	let t4;
     	let t5;
     	let td3;
-    	let t6_value = /*row*/ ctx[21].tempoDoServico + "";
+    	let t6_value = /*row*/ ctx[24].tempoDoServico + "";
     	let t6;
     	let t7;
     	let td4;
-    	let t8_value = /*row*/ ctx[21].tempoDeInicioDeServicoNoRelogio + "";
+    	let t8_value = /*row*/ ctx[24].tempoDeInicioDeServicoNoRelogio + "";
     	let t8;
     	let t9;
     	let td5;
-    	let t10_value = /*row*/ ctx[21].tempoDoClienteNaFila + "";
+    	let t10_value = /*row*/ ctx[24].tempoDoClienteNaFila + "";
     	let t10;
     	let t11;
     	let td6;
-    	let t12_value = /*row*/ ctx[21].tempoFinalDoServicoNoRelogio + "";
+    	let t12_value = /*row*/ ctx[24].tempoFinalDoServicoNoRelogio + "";
     	let t12;
     	let t13;
     	let td7;
-    	let t14_value = /*row*/ ctx[21].tempoDoClienteNoSistema + "";
+    	let t14_value = /*row*/ ctx[24].tempoDoClienteNoSistema + "";
     	let t14;
     	let t15;
     	let td8;
-    	let t16_value = /*row*/ ctx[21].tempoLivreDoOperador + "";
+    	let t16_value = /*row*/ ctx[24].tempoLivreDoOperador + "";
     	let t16;
     	let t17;
 
@@ -802,18 +788,18 @@ var app = (function () {
     			td8 = element("td");
     			t16 = text(t16_value);
     			t17 = space();
-    			add_location(td0, file, 197, 8, 6119);
-    			add_location(td1, file, 198, 8, 6151);
-    			add_location(td2, file, 199, 8, 6200);
-    			add_location(td3, file, 200, 8, 6248);
-    			add_location(td4, file, 201, 8, 6287);
-    			add_location(td5, file, 202, 8, 6343);
-    			add_location(td6, file, 203, 8, 6388);
-    			add_location(td7, file, 204, 8, 6441);
-    			add_location(td8, file, 205, 8, 6489);
+    			add_location(td0, file, 183, 8, 5732);
+    			add_location(td1, file, 184, 8, 5764);
+    			add_location(td2, file, 185, 8, 5813);
+    			add_location(td3, file, 186, 8, 5861);
+    			add_location(td4, file, 187, 8, 5900);
+    			add_location(td5, file, 188, 8, 5956);
+    			add_location(td6, file, 189, 8, 6001);
+    			add_location(td7, file, 190, 8, 6054);
+    			add_location(td8, file, 191, 8, 6102);
     			attr_dev(tr, "class", "svelte-966ocg");
-    			toggle_class(tr, "last-line", /*index*/ ctx[23] === /*table*/ ctx[5].length - 1);
-    			add_location(tr, file, 196, 7, 6060);
+    			toggle_class(tr, "last-line", /*index*/ ctx[26] === /*table*/ ctx[5].length - 1);
+    			add_location(tr, file, 182, 7, 5673);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, tr, anchor);
@@ -846,18 +832,18 @@ var app = (function () {
     			append_dev(tr, t17);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*table*/ 32 && t0_value !== (t0_value = /*row*/ ctx[21].cliente + "")) set_data_dev(t0, t0_value);
-    			if (dirty & /*table*/ 32 && t2_value !== (t2_value = /*row*/ ctx[21].tempoDesdeAUltimaChegada + "")) set_data_dev(t2, t2_value);
-    			if (dirty & /*table*/ 32 && t4_value !== (t4_value = /*row*/ ctx[21].tempoDeChegadaNoRelogio + "")) set_data_dev(t4, t4_value);
-    			if (dirty & /*table*/ 32 && t6_value !== (t6_value = /*row*/ ctx[21].tempoDoServico + "")) set_data_dev(t6, t6_value);
-    			if (dirty & /*table*/ 32 && t8_value !== (t8_value = /*row*/ ctx[21].tempoDeInicioDeServicoNoRelogio + "")) set_data_dev(t8, t8_value);
-    			if (dirty & /*table*/ 32 && t10_value !== (t10_value = /*row*/ ctx[21].tempoDoClienteNaFila + "")) set_data_dev(t10, t10_value);
-    			if (dirty & /*table*/ 32 && t12_value !== (t12_value = /*row*/ ctx[21].tempoFinalDoServicoNoRelogio + "")) set_data_dev(t12, t12_value);
-    			if (dirty & /*table*/ 32 && t14_value !== (t14_value = /*row*/ ctx[21].tempoDoClienteNoSistema + "")) set_data_dev(t14, t14_value);
-    			if (dirty & /*table*/ 32 && t16_value !== (t16_value = /*row*/ ctx[21].tempoLivreDoOperador + "")) set_data_dev(t16, t16_value);
+    			if (dirty & /*table*/ 32 && t0_value !== (t0_value = /*row*/ ctx[24].cliente + "")) set_data_dev(t0, t0_value);
+    			if (dirty & /*table*/ 32 && t2_value !== (t2_value = /*row*/ ctx[24].tempoDesdeAUltimaChegada + "")) set_data_dev(t2, t2_value);
+    			if (dirty & /*table*/ 32 && t4_value !== (t4_value = /*row*/ ctx[24].tempoDeChegadaNoRelogio + "")) set_data_dev(t4, t4_value);
+    			if (dirty & /*table*/ 32 && t6_value !== (t6_value = /*row*/ ctx[24].tempoDoServico + "")) set_data_dev(t6, t6_value);
+    			if (dirty & /*table*/ 32 && t8_value !== (t8_value = /*row*/ ctx[24].tempoDeInicioDeServicoNoRelogio + "")) set_data_dev(t8, t8_value);
+    			if (dirty & /*table*/ 32 && t10_value !== (t10_value = /*row*/ ctx[24].tempoDoClienteNaFila + "")) set_data_dev(t10, t10_value);
+    			if (dirty & /*table*/ 32 && t12_value !== (t12_value = /*row*/ ctx[24].tempoFinalDoServicoNoRelogio + "")) set_data_dev(t12, t12_value);
+    			if (dirty & /*table*/ 32 && t14_value !== (t14_value = /*row*/ ctx[24].tempoDoClienteNoSistema + "")) set_data_dev(t14, t14_value);
+    			if (dirty & /*table*/ 32 && t16_value !== (t16_value = /*row*/ ctx[24].tempoLivreDoOperador + "")) set_data_dev(t16, t16_value);
 
     			if (dirty & /*table*/ 32) {
-    				toggle_class(tr, "last-line", /*index*/ ctx[23] === /*table*/ ctx[5].length - 1);
+    				toggle_class(tr, "last-line", /*index*/ ctx[26] === /*table*/ ctx[5].length - 1);
     			}
     		},
     		d: function destroy(detaching) {
@@ -867,9 +853,44 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
+    		id: create_each_block_1.name,
+    		type: "each",
+    		source: "(182:6) {#each table as row, index}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (205:7) {#each finalInfos as finalInfo}
+    function create_each_block(ctx) {
+    	let p;
+    	let t_value = /*finalInfo*/ ctx[21] + "";
+    	let t;
+
+    	const block = {
+    		c: function create() {
+    			p = element("p");
+    			t = text(t_value);
+    			add_location(p, file, 205, 8, 6502);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, p, anchor);
+    			append_dev(p, t);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty & /*finalInfos*/ 64 && t_value !== (t_value = /*finalInfo*/ ctx[21] + "")) set_data_dev(t, t_value);
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(p);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(196:6) {#each table as row, index}",
+    		source: "(205:7) {#each finalInfos as finalInfo}",
     		ctx
     	});
 
@@ -885,67 +906,60 @@ var app = (function () {
     	let t1;
     	let button1;
     	let t3;
-    	let div6;
-    	let div5;
     	let div4;
-    	let div2;
-    	let t5;
     	let div3;
-    	let blockquote;
-    	let div4_hidden_value;
-    	let t6;
-    	let div9;
-    	let div8;
-    	let div7;
+    	let div2;
     	let span;
-    	let t8;
+    	let t5;
     	let input;
-    	let t9;
-    	let div12;
-    	let div10;
+    	let t6;
+    	let div7;
+    	let div5;
     	let numlist0;
     	let updating_nums;
     	let updating_defaultNum;
-    	let t10;
-    	let div11;
+    	let t7;
+    	let div6;
     	let numlist1;
     	let updating_nums_1;
     	let updating_defaultNum_1;
-    	let t11;
-    	let div14;
-    	let div13;
+    	let t8;
+    	let div9;
+    	let div8;
     	let table_1;
     	let thead;
     	let th0;
-    	let t13;
+    	let t10;
     	let th1;
-    	let t15;
+    	let t12;
     	let th2;
-    	let t17;
+    	let t14;
     	let th3;
-    	let t19;
+    	let t16;
     	let th4;
-    	let t21;
+    	let t18;
     	let th5;
-    	let t23;
+    	let t20;
     	let th6;
-    	let t25;
+    	let t22;
     	let th7;
-    	let t27;
+    	let t24;
     	let th8;
-    	let t29;
+    	let t26;
     	let tbody;
     	let table_1_hidden_value;
+    	let t27;
+    	let div14;
+    	let div13;
+    	let div12;
+    	let div10;
+    	let t29;
+    	let div11;
+    	let blockquote;
+    	let div12_hidden_value;
     	let current;
     	let mounted;
     	let dispose;
-    	let each_value_1 = /*finalInfos*/ ctx[6];
-    	validate_each_argument(each_value_1);
-    	let each_blocks_1 = [];
-
-    	for (let i = 0; i < each_value_1.length; i += 1) {
-    		each_blocks_1[i] = create_each_block_1(get_each_context_1(ctx, each_value_1, i));
-    	}
 
     	function numlist0_nums_binding(value) {
     		/*numlist0_nums_binding*/ ctx[10](value);
@@ -990,7 +1004,15 @@ var app = (function () {
     	numlist1 = new NumList({ props: numlist1_props, $$inline: true });
     	binding_callbacks.push(() => bind(numlist1, 'nums', numlist1_nums_binding));
     	binding_callbacks.push(() => bind(numlist1, 'defaultNum', numlist1_defaultNum_binding));
-    	let each_value = /*table*/ ctx[5];
+    	let each_value_1 = /*table*/ ctx[5];
+    	validate_each_argument(each_value_1);
+    	let each_blocks_1 = [];
+
+    	for (let i = 0; i < each_value_1.length; i += 1) {
+    		each_blocks_1[i] = create_each_block_1(get_each_context_1(ctx, each_value_1, i));
+    	}
+
+    	let each_value = /*finalInfos*/ ctx[6];
     	validate_each_argument(each_value);
     	let each_blocks = [];
 
@@ -1010,67 +1032,67 @@ var app = (function () {
     			button1 = element("button");
     			button1.textContent = "Limpar";
     			t3 = space();
-    			div6 = element("div");
-    			div5 = element("div");
     			div4 = element("div");
-    			div2 = element("div");
-    			div2.textContent = "Resultados finais";
-    			t5 = space();
     			div3 = element("div");
-    			blockquote = element("blockquote");
+    			div2 = element("div");
+    			span = element("span");
+    			span.textContent = "Tempo da Simulação (em minutos):";
+    			t5 = space();
+    			input = element("input");
+    			t6 = space();
+    			div7 = element("div");
+    			div5 = element("div");
+    			create_component(numlist0.$$.fragment);
+    			t7 = space();
+    			div6 = element("div");
+    			create_component(numlist1.$$.fragment);
+    			t8 = space();
+    			div9 = element("div");
+    			div8 = element("div");
+    			table_1 = element("table");
+    			thead = element("thead");
+    			th0 = element("th");
+    			th0.textContent = "Cliente";
+    			t10 = space();
+    			th1 = element("th");
+    			th1.textContent = "Tempo desde a Ultima Chegada (minutos)";
+    			t12 = space();
+    			th2 = element("th");
+    			th2.textContent = "Tempo de chegada no relógio";
+    			t14 = space();
+    			th3 = element("th");
+    			th3.textContent = "Tempo do Serviço (minutos)";
+    			t16 = space();
+    			th4 = element("th");
+    			th4.textContent = "Tempo de início do serviço no relógio";
+    			t18 = space();
+    			th5 = element("th");
+    			th5.textContent = "Tempo do cliente na fila (minutos)";
+    			t20 = space();
+    			th6 = element("th");
+    			th6.textContent = "Tempo final do serviço no relógio";
+    			t22 = space();
+    			th7 = element("th");
+    			th7.textContent = "Tempo do cliente no sistema (minutos)";
+    			t24 = space();
+    			th8 = element("th");
+    			th8.textContent = "Tempo livre do operador (minutos)";
+    			t26 = space();
+    			tbody = element("tbody");
 
     			for (let i = 0; i < each_blocks_1.length; i += 1) {
     				each_blocks_1[i].c();
     			}
 
-    			t6 = space();
-    			div9 = element("div");
-    			div8 = element("div");
-    			div7 = element("div");
-    			span = element("span");
-    			span.textContent = "Tempo da Simulação (em minutos):";
-    			t8 = space();
-    			input = element("input");
-    			t9 = space();
-    			div12 = element("div");
-    			div10 = element("div");
-    			create_component(numlist0.$$.fragment);
-    			t10 = space();
-    			div11 = element("div");
-    			create_component(numlist1.$$.fragment);
-    			t11 = space();
+    			t27 = space();
     			div14 = element("div");
     			div13 = element("div");
-    			table_1 = element("table");
-    			thead = element("thead");
-    			th0 = element("th");
-    			th0.textContent = "Cliente";
-    			t13 = space();
-    			th1 = element("th");
-    			th1.textContent = "Tempo desde a Ultima Chegada (minutos)";
-    			t15 = space();
-    			th2 = element("th");
-    			th2.textContent = "Tempo de chegada no relógio";
-    			t17 = space();
-    			th3 = element("th");
-    			th3.textContent = "Tempo do Serviço (minutos)";
-    			t19 = space();
-    			th4 = element("th");
-    			th4.textContent = "Tempo de início do serviço no relógio";
-    			t21 = space();
-    			th5 = element("th");
-    			th5.textContent = "Tempo do cliente na fila (minutos)";
-    			t23 = space();
-    			th6 = element("th");
-    			th6.textContent = "Tempo final do serviço no relógio";
-    			t25 = space();
-    			th7 = element("th");
-    			th7.textContent = "Tempo do cliente no sistema (minutos)";
-    			t27 = space();
-    			th8 = element("th");
-    			th8.textContent = "Tempo livre do operador (minutos)";
+    			div12 = element("div");
+    			div10 = element("div");
+    			div10.textContent = "Resultados finais";
     			t29 = space();
-    			tbody = element("tbody");
+    			div11 = element("div");
+    			blockquote = element("blockquote");
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
@@ -1084,54 +1106,54 @@ var app = (function () {
     			add_location(div0, file, 145, 3, 4321);
     			attr_dev(div1, "class", "row padded");
     			add_location(div1, file, 144, 2, 4292);
-    			attr_dev(div2, "class", "card-header");
-    			add_location(div2, file, 153, 5, 4620);
-    			attr_dev(blockquote, "class", "blockquote mb-0");
-    			add_location(blockquote, file, 155, 6, 4706);
-    			attr_dev(div3, "class", "card-body");
-    			add_location(div3, file, 154, 5, 4675);
-    			attr_dev(div4, "class", "card");
-    			div4.hidden = div4_hidden_value = /*finalInfos*/ ctx[6].length === 1;
-    			add_location(div4, file, 152, 4, 4562);
-    			attr_dev(div5, "class", "col");
-    			add_location(div5, file, 151, 3, 4539);
-    			attr_dev(div6, "class", "row padded");
-    			add_location(div6, file, 150, 2, 4510);
     			attr_dev(span, "class", "input-group-text");
-    			add_location(span, file, 167, 5, 4988);
+    			add_location(span, file, 153, 5, 4601);
     			attr_dev(input, "type", "number");
     			attr_dev(input, "class", "form-control");
-    			add_location(input, file, 168, 5, 5065);
-    			attr_dev(div7, "class", "input-group mb-3");
-    			add_location(div7, file, 166, 4, 4951);
-    			attr_dev(div8, "class", "col-5");
-    			add_location(div8, file, 165, 3, 4926);
-    			attr_dev(div9, "class", "row padded");
-    			add_location(div9, file, 164, 2, 4897);
-    			attr_dev(div10, "class", "col-5");
-    			add_location(div10, file, 173, 3, 5203);
-    			attr_dev(div11, "class", "col-5");
-    			add_location(div11, file, 176, 3, 5312);
-    			attr_dev(div12, "class", "row padded");
-    			add_location(div12, file, 172, 2, 5174);
-    			add_location(th0, file, 184, 6, 5570);
-    			add_location(th1, file, 185, 6, 5594);
-    			add_location(th2, file, 186, 6, 5649);
-    			add_location(th3, file, 187, 6, 5693);
-    			add_location(th4, file, 188, 6, 5736);
-    			add_location(th5, file, 189, 6, 5790);
-    			add_location(th6, file, 190, 6, 5841);
-    			add_location(th7, file, 191, 6, 5891);
-    			add_location(th8, file, 192, 6, 5945);
-    			add_location(thead, file, 183, 5, 5555);
-    			add_location(tbody, file, 194, 5, 6009);
+    			add_location(input, file, 154, 5, 4678);
+    			attr_dev(div2, "class", "input-group mb-3");
+    			add_location(div2, file, 152, 4, 4564);
+    			attr_dev(div3, "class", "col-5");
+    			add_location(div3, file, 151, 3, 4539);
+    			attr_dev(div4, "class", "row padded");
+    			add_location(div4, file, 150, 2, 4510);
+    			attr_dev(div5, "class", "col-5");
+    			add_location(div5, file, 159, 3, 4816);
+    			attr_dev(div6, "class", "col-5");
+    			add_location(div6, file, 162, 3, 4925);
+    			attr_dev(div7, "class", "row padded");
+    			add_location(div7, file, 158, 2, 4787);
+    			add_location(th0, file, 170, 6, 5183);
+    			add_location(th1, file, 171, 6, 5207);
+    			add_location(th2, file, 172, 6, 5262);
+    			add_location(th3, file, 173, 6, 5306);
+    			add_location(th4, file, 174, 6, 5349);
+    			add_location(th5, file, 175, 6, 5403);
+    			add_location(th6, file, 176, 6, 5454);
+    			add_location(th7, file, 177, 6, 5504);
+    			add_location(th8, file, 178, 6, 5558);
+    			add_location(thead, file, 169, 5, 5168);
+    			add_location(tbody, file, 180, 5, 5622);
     			attr_dev(table_1, "class", "table table-bordered");
     			table_1.hidden = table_1_hidden_value = /*finalInfos*/ ctx[6].length === 1;
-    			add_location(table_1, file, 182, 4, 5479);
+    			add_location(table_1, file, 168, 4, 5092);
+    			attr_dev(div8, "class", "col");
+    			add_location(div8, file, 167, 3, 5069);
+    			attr_dev(div9, "class", "row padded");
+    			add_location(div9, file, 166, 2, 5040);
+    			attr_dev(div10, "class", "card-header");
+    			add_location(div10, file, 201, 5, 6330);
+    			attr_dev(blockquote, "class", "blockquote mb-0");
+    			add_location(blockquote, file, 203, 6, 6416);
+    			attr_dev(div11, "class", "card-body");
+    			add_location(div11, file, 202, 5, 6385);
+    			attr_dev(div12, "class", "card");
+    			div12.hidden = div12_hidden_value = /*finalInfos*/ ctx[6].length === 1;
+    			add_location(div12, file, 200, 4, 6272);
     			attr_dev(div13, "class", "col");
-    			add_location(div13, file, 181, 3, 5456);
+    			add_location(div13, file, 199, 3, 6249);
     			attr_dev(div14, "class", "row padded");
-    			add_location(div14, file, 180, 2, 5427);
+    			add_location(div14, file, 198, 2, 6220);
     			attr_dev(div15, "class", "container");
     			add_location(div15, file, 143, 1, 4265);
     			add_location(main, file, 142, 0, 4256);
@@ -1148,60 +1170,60 @@ var app = (function () {
     			append_dev(div0, t1);
     			append_dev(div0, button1);
     			append_dev(div15, t3);
-    			append_dev(div15, div6);
-    			append_dev(div6, div5);
-    			append_dev(div5, div4);
-    			append_dev(div4, div2);
-    			append_dev(div4, t5);
+    			append_dev(div15, div4);
     			append_dev(div4, div3);
-    			append_dev(div3, blockquote);
-
-    			for (let i = 0; i < each_blocks_1.length; i += 1) {
-    				each_blocks_1[i].m(blockquote, null);
-    			}
-
+    			append_dev(div3, div2);
+    			append_dev(div2, span);
+    			append_dev(div2, t5);
+    			append_dev(div2, input);
+    			set_input_value(input, /*tempoSimulacao*/ ctx[0]);
     			append_dev(div15, t6);
+    			append_dev(div15, div7);
+    			append_dev(div7, div5);
+    			mount_component(numlist0, div5, null);
+    			append_dev(div7, t7);
+    			append_dev(div7, div6);
+    			mount_component(numlist1, div6, null);
+    			append_dev(div15, t8);
     			append_dev(div15, div9);
     			append_dev(div9, div8);
-    			append_dev(div8, div7);
-    			append_dev(div7, span);
-    			append_dev(div7, t8);
-    			append_dev(div7, input);
-    			set_input_value(input, /*tempoSimulacao*/ ctx[0]);
-    			append_dev(div15, t9);
-    			append_dev(div15, div12);
-    			append_dev(div12, div10);
-    			mount_component(numlist0, div10, null);
-    			append_dev(div12, t10);
-    			append_dev(div12, div11);
-    			mount_component(numlist1, div11, null);
-    			append_dev(div15, t11);
-    			append_dev(div15, div14);
-    			append_dev(div14, div13);
-    			append_dev(div13, table_1);
+    			append_dev(div8, table_1);
     			append_dev(table_1, thead);
     			append_dev(thead, th0);
-    			append_dev(thead, t13);
+    			append_dev(thead, t10);
     			append_dev(thead, th1);
-    			append_dev(thead, t15);
+    			append_dev(thead, t12);
     			append_dev(thead, th2);
-    			append_dev(thead, t17);
+    			append_dev(thead, t14);
     			append_dev(thead, th3);
-    			append_dev(thead, t19);
+    			append_dev(thead, t16);
     			append_dev(thead, th4);
-    			append_dev(thead, t21);
+    			append_dev(thead, t18);
     			append_dev(thead, th5);
-    			append_dev(thead, t23);
+    			append_dev(thead, t20);
     			append_dev(thead, th6);
-    			append_dev(thead, t25);
+    			append_dev(thead, t22);
     			append_dev(thead, th7);
-    			append_dev(thead, t27);
+    			append_dev(thead, t24);
     			append_dev(thead, th8);
-    			append_dev(table_1, t29);
+    			append_dev(table_1, t26);
     			append_dev(table_1, tbody);
 
+    			for (let i = 0; i < each_blocks_1.length; i += 1) {
+    				each_blocks_1[i].m(tbody, null);
+    			}
+
+    			append_dev(div15, t27);
+    			append_dev(div15, div14);
+    			append_dev(div14, div13);
+    			append_dev(div13, div12);
+    			append_dev(div12, div10);
+    			append_dev(div12, t29);
+    			append_dev(div12, div11);
+    			append_dev(div11, blockquote);
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(tbody, null);
+    				each_blocks[i].m(blockquote, null);
     			}
 
     			current = true;
@@ -1217,34 +1239,6 @@ var app = (function () {
     			}
     		},
     		p: function update(ctx, [dirty]) {
-    			if (dirty & /*finalInfos*/ 64) {
-    				each_value_1 = /*finalInfos*/ ctx[6];
-    				validate_each_argument(each_value_1);
-    				let i;
-
-    				for (i = 0; i < each_value_1.length; i += 1) {
-    					const child_ctx = get_each_context_1(ctx, each_value_1, i);
-
-    					if (each_blocks_1[i]) {
-    						each_blocks_1[i].p(child_ctx, dirty);
-    					} else {
-    						each_blocks_1[i] = create_each_block_1(child_ctx);
-    						each_blocks_1[i].c();
-    						each_blocks_1[i].m(blockquote, null);
-    					}
-    				}
-
-    				for (; i < each_blocks_1.length; i += 1) {
-    					each_blocks_1[i].d(1);
-    				}
-
-    				each_blocks_1.length = each_value_1.length;
-    			}
-
-    			if (!current || dirty & /*finalInfos*/ 64 && div4_hidden_value !== (div4_hidden_value = /*finalInfos*/ ctx[6].length === 1)) {
-    				prop_dev(div4, "hidden", div4_hidden_value);
-    			}
-
     			if (dirty & /*tempoSimulacao*/ 1 && to_number(input.value) !== /*tempoSimulacao*/ ctx[0]) {
     				set_input_value(input, /*tempoSimulacao*/ ctx[0]);
     			}
@@ -1281,7 +1275,35 @@ var app = (function () {
     			numlist1.$set(numlist1_changes);
 
     			if (dirty & /*table*/ 32) {
-    				each_value = /*table*/ ctx[5];
+    				each_value_1 = /*table*/ ctx[5];
+    				validate_each_argument(each_value_1);
+    				let i;
+
+    				for (i = 0; i < each_value_1.length; i += 1) {
+    					const child_ctx = get_each_context_1(ctx, each_value_1, i);
+
+    					if (each_blocks_1[i]) {
+    						each_blocks_1[i].p(child_ctx, dirty);
+    					} else {
+    						each_blocks_1[i] = create_each_block_1(child_ctx);
+    						each_blocks_1[i].c();
+    						each_blocks_1[i].m(tbody, null);
+    					}
+    				}
+
+    				for (; i < each_blocks_1.length; i += 1) {
+    					each_blocks_1[i].d(1);
+    				}
+
+    				each_blocks_1.length = each_value_1.length;
+    			}
+
+    			if (!current || dirty & /*finalInfos*/ 64 && table_1_hidden_value !== (table_1_hidden_value = /*finalInfos*/ ctx[6].length === 1)) {
+    				prop_dev(table_1, "hidden", table_1_hidden_value);
+    			}
+
+    			if (dirty & /*finalInfos*/ 64) {
+    				each_value = /*finalInfos*/ ctx[6];
     				validate_each_argument(each_value);
     				let i;
 
@@ -1293,7 +1315,7 @@ var app = (function () {
     					} else {
     						each_blocks[i] = create_each_block(child_ctx);
     						each_blocks[i].c();
-    						each_blocks[i].m(tbody, null);
+    						each_blocks[i].m(blockquote, null);
     					}
     				}
 
@@ -1304,8 +1326,8 @@ var app = (function () {
     				each_blocks.length = each_value.length;
     			}
 
-    			if (!current || dirty & /*finalInfos*/ 64 && table_1_hidden_value !== (table_1_hidden_value = /*finalInfos*/ ctx[6].length === 1)) {
-    				prop_dev(table_1, "hidden", table_1_hidden_value);
+    			if (!current || dirty & /*finalInfos*/ 64 && div12_hidden_value !== (div12_hidden_value = /*finalInfos*/ ctx[6].length === 1)) {
+    				prop_dev(div12, "hidden", div12_hidden_value);
     			}
     		},
     		i: function intro(local) {
@@ -1321,9 +1343,9 @@ var app = (function () {
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(main);
-    			destroy_each(each_blocks_1, detaching);
     			destroy_component(numlist0);
     			destroy_component(numlist1);
+    			destroy_each(each_blocks_1, detaching);
     			destroy_each(each_blocks, detaching);
     			mounted = false;
     			run_all(dispose);

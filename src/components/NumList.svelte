@@ -6,6 +6,12 @@
     const addNum = () => {
         nums = nums.concat(defaultNum);
     };
+
+    const removeNum =
+        (removeIndex = -1) =>
+        () => {
+            nums = nums.filter((_, index) => index !== removeIndex);
+        };
 </script>
 
 <div>
@@ -14,11 +20,11 @@
         <input type="number" class="form-control" bind:value={defaultNum} />
         <button on:click={addNum} class="btn btn-dark">Adicionar {name}</button>
     </div>
-    <ul class="list-group">
-        {#each nums as num}
-            <li class="list-group-item">{num}</li>
+    <div class="list-group">
+        {#each nums as num, index}
+            <button on:click={removeNum(index)} class="list-group-item list-group-item-action">{num}</button>
         {/each}
-    </ul>
+    </div>
 </div>
 
 <style></style>
