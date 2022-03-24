@@ -149,6 +149,22 @@
 			</div>
 		</div>
 		<div class="row padded">
+			<div class="col-5">
+				<div class="input-group mb-3">
+					<span class="input-group-text">Tempo da Simulação (em minutos):</span>
+					<input type="number" class="form-control" bind:value={tempoSimulacao} />
+				</div>
+			</div>
+		</div>
+		<div class="row padded">
+			<div class="col-5">
+				<NumList name="TEC" bind:nums={TECs} bind:defaultNum={defaultTEC} />
+			</div>
+			<div class="col-5">
+				<NumList name="TS" bind:nums={TSs} bind:defaultNum={defaultTS} />
+			</div>
+		</div>
+		<div class="row padded">
 			<div class="col">
 				<div class="card" hidden={finalInfos.length === 1}>
 					<div class="card-header">Resultados finais</div>
@@ -164,36 +180,7 @@
 		</div>
 		<div class="row padded">
 			<div class="col">
-				<div class="card">
-					<div class="card-header">Configurar simulação</div>
-					<div class="card-body">
-						<blockquote class="blockquote mb-0">
-							<div class="container">
-								<div class="row">
-									<div class="col-5">
-										<div class="input-group mb-3">
-											<span class="input-group-text">Tempo da Simulação (em minutos)</span>
-											<input type="number" class="form-control" bind:value={tempoSimulacao} />
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col">
-										<NumList name="TEC" bind:nums={TECs} bind:defaultNum={defaultTEC} />
-									</div>
-									<div class="col">
-										<NumList name="TS" bind:nums={TSs} bind:defaultNum={defaultTS} />
-									</div>
-								</div>
-							</div>
-						</blockquote>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="row padded">
-			<div class="col">
-				<table class="table table-bordered">
+				<table class="table table-bordered" hidden={finalInfos.length === 1}>
 					<thead>
 						<th>Cliente</th>
 						<th>Tempo desde a Ultima Chegada (minutos)</th>
