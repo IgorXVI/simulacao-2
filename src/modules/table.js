@@ -13,16 +13,13 @@ export const defaultTabletEl = {
 export const calcTable = ({
     tempoSimulacao = 0,
     TECs = [0],
-    TSs = [0],
-    firstTableEl = defaultTabletEl
+    TSs = [0]
 }) => {
-    const getRandBetween = (num1 = 0, num2 = 1) => {
-        return Math.floor(Math.random() * (num2 - num1 + 1) + num1)
-    }
+    const getRandBetween = (num1 = 0, num2 = 1) => Math.floor(Math.random() * (num2 - num1 + 1) + num1)
 
     const getRandomEL = (arr = [0]) => arr[getRandBetween(0, arr.length - 1)] || 0
 
-    const newTable = [firstTableEl]
+    const newTable = [defaultTabletEl]
 
     // eslint-disable-next-line no-constant-condition
     while (true) {
@@ -109,7 +106,7 @@ export const calcTable = ({
         `Tempo médio despendido no sistema: ${tempoMedioSistema} minutos`,
     ]
 
-    const table = newTable
+    const table = newTable.slice(1)
 
     return {
         finalInfos,

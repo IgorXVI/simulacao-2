@@ -25,7 +25,6 @@
 
 	const calcTableClick = () => {
 		const calcResult = calcTable({
-			firstTableEl: table[0],
 			tempoSimulacao,
 			TECs,
 			TSs,
@@ -99,8 +98,8 @@
 		{#if renderTable}
 			<div class="row padded" hidden={finalInfos.length === 1}>
 				<div class="col">
-					<table class="table table-dark table-bordered border border-white">
-						<thead>
+					<table class="table table-bordered">
+						<thead class="table-dark border-white">
 							<tr>
 								<th>Cliente</th>
 								<th>Tempo desde a Ultima Chegada (minutos)</th>
