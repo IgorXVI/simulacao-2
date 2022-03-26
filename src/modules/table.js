@@ -111,8 +111,6 @@ export const calcTable = ({
 
     const table = newTable
 
-    console.log(table.length)
-
     return {
         finalInfos,
         table

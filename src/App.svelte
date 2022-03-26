@@ -22,15 +22,6 @@
 	let defaultTS = inialDefaultTS;
 	let table = [...inialTable];
 	let finalInfos = initialFinalInfos;
-	const resetAll = () => {
-		tempoSimulacao = inialTempoSimulacao;
-		TECs = [...inialTECs];
-		defaultTEC = inialDefaultTEC;
-		TSs = [...inialTSs];
-		defaultTS = inialDefaultTS;
-		table = [...inialTable];
-		finalInfos = initialFinalInfos;
-	};
 
 	const calcTableClick = () => {
 		const calcResult = calcTable({
@@ -41,6 +32,22 @@
 		});
 		finalInfos = calcResult.finalInfos;
 		table = calcResult.table;
+	};
+
+	let renderTable = false;
+	const unsetRenderTable = () => {
+		renderTable = !renderTable;
+	};
+
+	const resetAll = () => {
+		tempoSimulacao = inialTempoSimulacao;
+		TECs = [...inialTECs];
+		defaultTEC = inialDefaultTEC;
+		TSs = [...inialTSs];
+		defaultTS = inialDefaultTS;
+		table = [...inialTable];
+		finalInfos = initialFinalInfos;
+		renderTable = false;
 	};
 </script>
 
@@ -68,9 +75,9 @@
 				<NumList name="TS" bind:nums={TSs} bind:defaultNum={defaultTS} />
 			</div>
 		</div>
-		<div class="row padded">
+		<div class="row padded" hidden={finalInfos.length === 1}>
 			<div class="col">
-				<div class="card" hidden={finalInfos.length === 1}>
+				<div class="card">
 					<div class="card-header">Resultados finais</div>
 					<div class="card-body">
 						<blockquote class="blockquote mb-0">
@@ -82,38 +89,49 @@
 				</div>
 			</div>
 		</div>
-		<div class="row padded">
+		<div class="row padded" hidden={finalInfos.length === 1}>
 			<div class="col">
-				<table class="table table-bordered" hidden={finalInfos.length === 1}>
-					<thead>
-						<th>Cliente</th>
-						<th>Tempo desde a Ultima Chegada (minutos)</th>
-						<th>Tempo de chegada no relógio</th>
-						<th>Tempo do Serviço (minutos)</th>
-						<th>Tempo de início do serviço no relógio</th>
-						<th>Tempo do cliente na fila (minutos)</th>
-						<th>Tempo final do serviço no relógio</th>
-						<th>Tempo do cliente no sistema (minutos)</th>
-						<th>Tempo livre do operador (minutos)</th>
-					</thead>
-					<tbody>
-						{#each table as row, index}
-							<tr class:last-line={index === table.length - 1}>
-								<td>{row.cliente}</td>
-								<td>{row.tempoDesdeAUltimaChegada}</td>
-								<td>{row.tempoDeChegadaNoRelogio}</td>
-								<td>{row.tempoDoServico}</td>
-								<td>{row.tempoDeInicioDeServicoNoRelogio}</td>
-								<td>{row.tempoDoClienteNaFila}</td>
-								<td>{row.tempoFinalDoServicoNoRelogio}</td>
-								<td>{row.tempoDoClienteNoSistema}</td>
-								<td>{row.tempoLivreDoOperador}</td>
-							</tr>
-						{/each}
-					</tbody>
-				</table>
+				<button on:click={unsetRenderTable} class="btn" class:btn-success={!renderTable} class:btn-danger={renderTable}>
+					{renderTable ? "Esconder tabela" : "Mostrar Tabela"}
+				</button>
 			</div>
 		</div>
+		{#if renderTable}
+			<div class="row padded" hidden={finalInfos.length === 1}>
+				<div class="col">
+					<table class="table table-dark table-bordered border border-white">
+						<thead>
+							<tr>
+								<th>Cliente</th>
+								<th>Tempo desde a Ultima Chegada (minutos)</th>
+								<th>Tempo de chegada no relógio</th>
+								<th>Tempo do Serviço (minutos)</th>
+								<th>Tempo de início do serviço no relógio</th>
+								<th>Tempo do cliente na fila (minutos)</th>
+								<th>Tempo final do serviço no relógio</th>
+								<th>Tempo do cliente no sistema (minutos)</th>
+								<th>Tempo livre do operador (minutos)</th>
+							</tr>
+						</thead>
+						<tbody>
+							{#each table as row, index}
+								<tr class:last-line={index === table.length - 1}>
+									<td>{row.cliente}</td>
+									<td>{row.tempoDesdeAUltimaChegada}</td>
+									<td>{row.tempoDeChegadaNoRelogio}</td>
+									<td>{row.tempoDoServico}</td>
+									<td>{row.tempoDeInicioDeServicoNoRelogio}</td>
+									<td>{row.tempoDoClienteNaFila}</td>
+									<td>{row.tempoFinalDoServicoNoRelogio}</td>
+									<td>{row.tempoDoClienteNoSistema}</td>
+									<td>{row.tempoLivreDoOperador}</td>
+								</tr>
+							{/each}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		{/if}
 	</div>
 </main>
 
