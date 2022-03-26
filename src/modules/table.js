@@ -17,7 +17,10 @@ export const calcTable = ({
 }) => {
     const getRandBetween = (num1 = 0, num2 = 1) => Math.floor(Math.random() * (num2 - num1 + 1) + num1)
 
-    const getRandomEL = (arr = [0]) => arr[getRandBetween(0, arr.length - 1)] || 0
+    const getRandomEL = (arr = [0]) => {
+        const el = arr[getRandBetween(0, arr.length - 1)]
+        return !el || el <= 0 ? 1 : el
+    }
 
     const newTable = [defaultTabletEl]
 
