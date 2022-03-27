@@ -775,11 +775,13 @@ var app = (function () {
             newTable.push(newEl);
         }
 
-        const sumTableRows = (attr = "") => newTable.reduce((acc, el) => acc + el[attr], 0);
+        const table = newTable.slice(1);
 
-        const quantidadeDeClientes = newTable.length;
+        const sumTableRows = (attr = "") => table.reduce((acc, el) => acc + el[attr], 0);
 
-        const numClienteEsperaram = newTable.filter((el) => el.tempoDoClienteNaFila > 0).length;
+        const quantidadeDeClientes = table.length;
+
+        const numClienteEsperaram = table.filter((el) => el.tempoDoClienteNaFila > 0).length;
 
         const sumsRow = {
             cliente: "",
@@ -793,7 +795,7 @@ var app = (function () {
             tempoLivreDoOperador: sumTableRows("tempoLivreDoOperador"),
         };
 
-        newTable.push(sumsRow);
+        table.push(sumsRow);
 
         const tempoMedioEspera = (sumsRow.tempoDoClienteNaFila / quantidadeDeClientes).toFixed(2);
 
@@ -812,8 +814,6 @@ var app = (function () {
             `Tempo médio do serviço: ${tempoMedioServico} minutos`,
             `Tempo médio despendido no sistema: ${tempoMedioSistema} minutos`,
         ];
-
-        const table = newTable.slice(1);
 
         return {
             finalInfos,
